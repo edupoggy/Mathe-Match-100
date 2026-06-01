@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Mathe-UNO Querformat</title>
+  <title>Mathe-UNO</title>
   <style>
     :root {
-      --bg: #f4f6fb;
-      --text: #172033;
-      --muted: #667085;
-      --shadow: 0 10px 28px rgba(20, 30, 60, 0.14);
-      --p1: #2563eb;
-      --p2: #db2777;
-      --neutral: #f8fafc;
-      --neutral-border: #d0d5dd;
+      --dark: #071735;
+      --dark2: #0b2f68;
+      --blue: #2396f3;
+      --pink: #ec3b8b;
+      --yellow: #ffc928;
+      --green: #79bd36;
+      --white: #ffffff;
+      --ink: #061332;
+      --shadow: 0 16px 0 rgba(0,0,0,.24), 0 24px 40px rgba(0,0,0,.28);
+      --soft: rgba(255,255,255,.92);
     }
 
     * {
@@ -23,14 +25,28 @@
 
     html, body {
       margin: 0;
-      width: 100%;
       min-height: 100%;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #dbeafe, transparent 35%),
-                  radial-gradient(circle at bottom right, #fce7f3, transparent 35%),
-                  var(--bg);
-      color: var(--text);
+      width: 100%;
+      font-family: "Trebuchet MS", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--white);
       overscroll-behavior: none;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(35,150,243,.45), transparent 22%),
+        radial-gradient(circle at 92% 88%, rgba(236,59,139,.35), transparent 23%),
+        radial-gradient(circle at center, #103d82 0%, var(--dark2) 35%, var(--dark) 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(35deg, transparent 47%, rgba(255,255,255,.05) 48%, rgba(255,255,255,.05) 52%, transparent 53%),
+        radial-gradient(circle, rgba(255,255,255,.14) 1px, transparent 2px);
+      background-size: 100% 100%, 28px 28px;
+      opacity: .42;
     }
 
     body {
@@ -38,6 +54,8 @@
     }
 
     .app {
+      position: relative;
+      z-index: 1;
       width: min(100%, 1280px);
       margin: 0 auto;
       display: grid;
@@ -45,64 +63,102 @@
     }
 
     header {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      border-radius: 22px;
-      padding: 12px 16px;
-      box-shadow: var(--shadow);
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 12px;
       align-items: center;
+      padding: 12px 16px;
+      border-radius: 28px;
+      background: rgba(2, 10, 35, .48);
+      border: 4px solid rgba(255,255,255,.2);
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(1.5rem, 3.1vw, 2.8rem);
-      line-height: 1;
-      letter-spacing: -0.04em;
+    .logoLine {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      flex-wrap: wrap;
     }
+
+    .mathe {
+      font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 1000;
+      letter-spacing: .02em;
+      color: white;
+      text-shadow: 0 5px 0 #000b25, 0 0 16px rgba(255,255,255,.25);
+      -webkit-text-stroke: 2px #000b25;
+      transform: rotate(-2deg);
+    }
+
+    .uno {
+      font-size: clamp(2.6rem, 6vw, 5.8rem);
+      font-weight: 1000;
+      line-height: .85;
+      letter-spacing: -.06em;
+      color: var(--yellow);
+      text-shadow: 0 7px 0 #4a2a00, 0 0 18px rgba(255,201,40,.3);
+      -webkit-text-stroke: 3px white;
+    }
+
+    .uno span:nth-child(2) { color: var(--pink); }
+    .uno span:nth-child(3) { color: var(--blue); }
 
     .subtitle {
-      font-size: clamp(0.9rem, 1.4vw, 1.1rem);
-      color: var(--muted);
-      margin: 5px 0 0;
+      margin: 4px 0 0;
+      font-size: clamp(.95rem, 1.5vw, 1.15rem);
+      font-weight: 900;
+      color: #dbeafe;
     }
 
-    .pill {
+    .headlineBrush {
       display: inline-block;
-      margin-bottom: 5px;
-      border-radius: 999px;
-      padding: 6px 11px;
-      background: #eef2ff;
-      font-weight: 950;
-      color: #3730a3;
-      font-size: 0.9rem;
+      margin-top: 6px;
+      background: white;
+      color: var(--ink);
+      border-radius: 16px;
+      padding: 6px 18px;
+      font-size: clamp(1rem, 1.7vw, 1.35rem);
+      font-weight: 1000;
+      box-shadow: 0 7px 0 rgba(0,0,0,.25);
     }
+
+    .headlineBrush .b { color: var(--blue); }
+    .headlineBrush .p { color: var(--pink); }
+    .headlineBrush .g { color: var(--green); }
 
     button.action {
-      min-height: 50px;
-      border: 0;
-      border-radius: 16px;
-      font-size: 1.05rem;
-      font-weight: 950;
-      background: #111827;
+      min-height: 56px;
+      border: 4px solid white;
+      border-radius: 999px;
+      font-size: 1.18rem;
+      font-weight: 1000;
+      background: linear-gradient(#9be05a, var(--green));
       color: white;
       cursor: pointer;
-      padding: 0 18px;
+      padding: 0 24px;
       white-space: nowrap;
+      box-shadow: 0 7px 0 #396b17, 0 13px 22px rgba(0,0,0,.28);
+      text-shadow: 0 2px 0 rgba(0,0,0,.25);
+    }
+
+    button.action:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #396b17, 0 7px 16px rgba(0,0,0,.25);
     }
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.75fr) minmax(300px, 0.72fr);
+      grid-template-columns: minmax(0, 1.75fr) minmax(300px, .72fr);
       gap: 10px;
       align-items: stretch;
     }
 
     .panel {
-      background: rgba(255, 255, 255, 0.94);
-      border-radius: 22px;
+      background: var(--soft);
+      color: var(--ink);
+      border: 5px solid white;
+      border-radius: 30px;
       box-shadow: var(--shadow);
       padding: 12px;
     }
@@ -111,7 +167,7 @@
       display: grid;
       grid-template-rows: auto 1fr auto;
       gap: 10px;
-      min-height: calc(100vh - 125px);
+      min-height: calc(100vh - 145px);
     }
 
     .players {
@@ -121,16 +177,34 @@
     }
 
     .player {
-      border: 4px solid transparent;
-      border-radius: 20px;
+      border: 5px solid rgba(255,255,255,.9);
+      border-radius: 24px;
       padding: 10px;
-      background: var(--neutral);
       text-align: center;
-      transition: 0.25s ease;
+      transition: .25s ease;
+      color: white;
+      box-shadow: 0 8px 0 rgba(0,0,0,.18);
+    }
+
+    .player.p1 { background: linear-gradient(135deg, #eaf5ff, #cfeaff); color: #125da7; }
+    .player.p2 { background: linear-gradient(135deg, #fff1f7, #ffd3e8); color: #bd1b68; }
+
+    .player.active.p1 {
+      background: linear-gradient(135deg, #49b9ff, #1677d9);
+      color: white;
+      transform: scale(1.02);
+      box-shadow: 0 0 0 5px rgba(35,150,243,.35), 0 9px 0 #0b4c94;
+    }
+
+    .player.active.p2 {
+      background: linear-gradient(135deg, #ff75b5, #db2777);
+      color: white;
+      transform: scale(1.02);
+      box-shadow: 0 0 0 5px rgba(236,59,139,.35), 0 9px 0 #8e164d;
     }
 
     .playerName {
-      font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+      font-size: clamp(1.15rem, 2.2vw, 1.75rem);
       font-weight: 1000;
       word-break: break-word;
     }
@@ -138,130 +212,140 @@
     .player small {
       display: block;
       margin-top: 2px;
-      font-weight: 900;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .player.active.p1 {
-      border-color: var(--p1);
-      background: #dbeafe;
-      color: #1d4ed8;
-      transform: scale(1.015);
-    }
-
-    .player.active.p2 {
-      border-color: var(--p2);
-      background: #fce7f3;
-      color: #be185d;
-      transform: scale(1.015);
+      font-weight: 1000;
+      opacity: .9;
     }
 
     .centerArea {
       display: grid;
-      grid-template-columns: minmax(280px, 0.78fr) minmax(410px, 1.22fr);
+      grid-template-columns: minmax(280px, .78fr) minmax(410px, 1.22fr);
       gap: 10px;
-      align-items: stretch;
       min-height: 0;
     }
 
     .numberBox {
-      border-radius: 24px;
-      background: #111827;
+      border-radius: 28px;
+      background: radial-gradient(circle at top, #174b9e, #061332 74%);
       color: white;
       text-align: center;
       padding: 16px 10px;
       display: grid;
       align-content: center;
       min-height: 300px;
+      border: 6px solid white;
+      box-shadow: inset 0 0 0 5px rgba(35,150,243,.7), 0 12px 0 rgba(0,0,0,.25);
     }
 
     .numberLabel {
       margin: 0 0 8px;
-      color: #cbd5e1;
+      color: #dbeafe;
       font-size: clamp(1rem, 1.7vw, 1.3rem);
-      font-weight: 900;
+      font-weight: 1000;
+      text-transform: uppercase;
     }
 
     .number {
-      font-size: clamp(5.8rem, 13.5vw, 10rem);
+      font-size: clamp(6rem, 14vw, 10.5rem);
       font-weight: 1000;
-      line-height: 0.95;
-      letter-spacing: -0.08em;
+      line-height: .9;
+      letter-spacing: -.08em;
+      text-shadow: 0 8px 0 #000a22;
     }
 
     .status {
-      margin: 10px 0 0;
-      color: #dbeafe;
-      font-size: clamp(1.05rem, 1.9vw, 1.5rem);
-      font-weight: 950;
+      margin: 12px auto 0;
+      max-width: 94%;
+      background: white;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: clamp(1rem, 1.8vw, 1.35rem);
+      font-weight: 1000;
+      box-shadow: 0 5px 0 rgba(0,0,0,.22);
     }
 
     .cards {
       display: grid;
       grid-template-columns: repeat(2, minmax(170px, 1fr));
       grid-template-rows: repeat(2, minmax(145px, 1fr));
-      gap: 10px;
+      gap: 12px;
       min-height: 300px;
     }
 
     .mathCard {
-      border-radius: 26px;
-      border: 4px solid var(--neutral-border);
-      background: linear-gradient(180deg, #ffffff, #f1f5f9);
-      color: #111827;
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
-      font-size: clamp(3.4rem, 7vw, 6.4rem);
+      position: relative;
+      border-radius: 28px;
+      border: 7px solid white;
+      background: linear-gradient(180deg, #ffffff, #edf5ff);
+      color: var(--ink);
+      box-shadow: 0 13px 0 rgba(0,0,0,.28), 0 20px 28px rgba(0,0,0,.2);
+      font-size: clamp(3.5rem, 7.3vw, 6.8rem);
       font-weight: 1000;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: transform .15s ease, box-shadow .15s ease;
+      overflow: hidden;
     }
 
+    .mathCard::before,
+    .mathCard::after {
+      content: "♣";
+      position: absolute;
+      font-size: 1.4rem;
+      color: rgba(6,19,50,.18);
+      font-weight: 1000;
+    }
+
+    .mathCard::before { top: 12px; left: 14px; }
+    .mathCard::after { bottom: 12px; right: 14px; transform: rotate(180deg); }
+
     .mathCard:active {
-      transform: scale(0.96);
-      box-shadow: 0 5px 12px rgba(15, 23, 42, 0.14);
+      transform: translateY(6px) scale(.98);
+      box-shadow: 0 6px 0 rgba(0,0,0,.28), 0 12px 22px rgba(0,0,0,.18);
     }
 
     .mathCard:disabled {
-      opacity: 0.45;
+      opacity: .45;
       cursor: not-allowed;
     }
 
     .progressWrap {
-      height: 18px;
-      background: #e5e7eb;
+      height: 20px;
+      background: rgba(255,255,255,.55);
+      border: 4px solid white;
       border-radius: 999px;
       overflow: hidden;
       margin-bottom: 4px;
+      box-shadow: 0 6px 0 rgba(0,0,0,.16);
     }
 
     .progress {
       height: 100%;
       width: 20%;
-      background: #6366f1;
+      background: linear-gradient(90deg, var(--blue), var(--yellow), var(--green));
       border-radius: 999px;
-      transition: width 0.3s ease;
+      transition: width .3s ease;
     }
 
     .scale {
       display: flex;
       justify-content: space-between;
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 0.95rem;
+      color: white;
+      font-weight: 1000;
+      text-shadow: 0 2px 0 rgba(0,0,0,.35);
     }
 
     .side {
       display: grid;
       grid-template-rows: auto auto auto auto 1fr;
       gap: 10px;
-      min-height: calc(100vh - 125px);
+      min-height: calc(100vh - 145px);
       align-content: start;
     }
 
     h2 {
       margin: 0 0 8px;
-      font-size: clamp(1.2rem, 2vw, 1.55rem);
+      font-size: clamp(1.25rem, 2vw, 1.55rem);
+      font-weight: 1000;
     }
 
     .controls {
@@ -269,12 +353,7 @@
       gap: 10px;
     }
 
-    .nameInputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-    }
-
+    .nameInputs,
     .settingsGrid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -284,43 +363,45 @@
     label {
       display: block;
       margin-bottom: 4px;
-      font-weight: 900;
-      color: var(--muted);
+      font-weight: 1000;
+      color: #31507e;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-size: 0.72rem;
+      letter-spacing: .05em;
+      font-size: .72rem;
     }
 
     select, input {
       width: 100%;
       min-height: 44px;
-      border-radius: 14px;
-      border: 2px solid #d0d5dd;
+      border-radius: 16px;
+      border: 3px solid #b9c9e5;
       padding: 8px 10px;
       font-size: 1rem;
-      font-weight: 850;
+      font-weight: 900;
       background: white;
+      color: var(--ink);
     }
 
     .message {
       display: none;
-      border-radius: 20px;
-      background: #fef3c7;
-      color: #92400e;
+      border-radius: 24px;
+      background: linear-gradient(#fff4a8, #ffd84a);
+      color: #6b3b00;
+      border: 5px solid white;
       padding: 14px;
-      font-size: 1.12rem;
-      font-weight: 950;
+      font-size: 1.14rem;
+      font-weight: 1000;
+      box-shadow: 0 9px 0 rgba(0,0,0,.22);
     }
 
-    .message.show {
-      display: block;
-    }
+    .message.show { display: block; }
 
     details.rulesBox {
-      background: rgba(255, 255, 255, 0.94);
-      border-radius: 22px;
+      background: var(--soft);
+      color: var(--ink);
+      border: 5px solid white;
+      border-radius: 28px;
       box-shadow: var(--shadow);
-      padding: 0;
       overflow: hidden;
     }
 
@@ -331,168 +412,107 @@
       font-size: 1.25rem;
       font-weight: 1000;
       user-select: none;
+      background: linear-gradient(90deg, #eef7ff, #fff7fb);
     }
 
-    details.rulesBox summary::-webkit-details-marker {
-      display: none;
-    }
+    details.rulesBox summary::-webkit-details-marker { display: none; }
 
     .rules {
       margin: 0;
       padding: 0 18px 14px 32px;
-      color: #344054;
-      font-size: 0.98rem;
+      color: #243b62;
+      font-size: .98rem;
       line-height: 1.35;
+      font-weight: 800;
     }
 
-    .spacerCard {
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 22px;
-      min-height: 80px;
+    .targetMini {
+      display: grid;
+      place-items: center;
+      min-height: 96px;
+      border-radius: 28px;
+      background: radial-gradient(circle, white 0 38%, var(--blue) 39% 55%, white 56% 68%, transparent 69%),
+                  linear-gradient(135deg, #ffde59, #ffbd18);
+      color: var(--ink);
+      border: 5px solid white;
+      font-size: 2.2rem;
+      font-weight: 1000;
+      box-shadow: 0 10px 0 rgba(0,0,0,.22);
     }
 
     .portraitHint {
       display: none;
       background: #fff7ed;
-      border: 3px solid #fed7aa;
+      border: 4px solid #fed7aa;
       color: #9a3412;
       border-radius: 20px;
       padding: 12px;
-      font-weight: 950;
+      font-weight: 1000;
       text-align: center;
     }
 
+    .doodle {
+      position: fixed;
+      z-index: 0;
+      color: rgba(255,255,255,.28);
+      font-weight: 1000;
+      font-size: clamp(1.6rem, 3vw, 3rem);
+      pointer-events: none;
+    }
+    .d1 { left: 3%; bottom: 8%; transform: rotate(-10deg); color: rgba(35,150,243,.55); }
+    .d2 { right: 5%; top: 11%; transform: rotate(9deg); color: rgba(255,201,40,.55); }
+    .d3 { right: 4%; bottom: 7%; transform: rotate(-8deg); color: rgba(121,189,54,.55); }
+
     @media (orientation: portrait) and (max-width: 900px) {
-      .portraitHint {
-        display: block;
-      }
-
-      header {
-        grid-template-columns: 1fr;
-      }
-
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .gamePanel,
-      .side {
-        min-height: auto;
-      }
-
-      .centerArea {
-        grid-template-columns: 1fr;
-      }
-
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .portraitHint { display: block; }
+      header { grid-template-columns: 1fr; }
+      .layout { grid-template-columns: 1fr; }
+      .gamePanel, .side { min-height: auto; }
+      .centerArea { grid-template-columns: 1fr; }
     }
 
     @media (orientation: landscape) and (max-height: 680px) {
-      body {
-        padding: 8px;
-      }
-
-      .app {
-        gap: 8px;
-      }
-
-      header {
-        padding: 9px 13px;
-        border-radius: 18px;
-      }
-
-      .pill {
-        margin-bottom: 3px;
-        padding: 5px 10px;
-      }
-
-      .subtitle {
-        margin-top: 3px;
-      }
-
-      .layout {
-        gap: 8px;
-      }
-
-      .panel {
-        padding: 10px;
-        border-radius: 18px;
-      }
-
-      .gamePanel,
-      .side {
-        min-height: calc(100vh - 100px);
-      }
-
-      .centerArea {
-        grid-template-columns: 0.72fr 1.28fr;
-        gap: 8px;
-      }
-
-      .players {
-        gap: 8px;
-      }
-
-      .player {
-        padding: 7px;
-        border-radius: 17px;
-      }
-
-      .numberBox {
-        min-height: 230px;
-        border-radius: 18px;
-      }
-
-      .number {
-        font-size: clamp(5rem, 12vw, 8.2rem);
-      }
-
-      .cards {
-        min-height: 230px;
-        gap: 8px;
-      }
-
-      .mathCard {
-        border-radius: 20px;
-      }
-
-      .side {
-        gap: 8px;
-      }
-
-      select, input {
-        min-height: 40px;
-      }
-
-      button.action {
-        min-height: 44px;
-      }
-
-      details.rulesBox summary {
-        padding: 11px 12px;
-        font-size: 1.1rem;
-      }
-
-      .rules {
-        font-size: 0.86rem;
-        line-height: 1.25;
-      }
+      body { padding: 7px; }
+      .app { gap: 7px; }
+      header { padding: 8px 12px; border-radius: 22px; }
+      .headlineBrush { padding: 4px 14px; }
+      .layout { gap: 8px; }
+      .panel { padding: 9px; border-radius: 24px; }
+      .gamePanel, .side { min-height: calc(100vh - 112px); }
+      .centerArea { grid-template-columns: .72fr 1.28fr; gap: 8px; }
+      .players { gap: 8px; }
+      .player { padding: 7px; border-radius: 20px; }
+      .numberBox { min-height: 230px; border-radius: 22px; }
+      .number { font-size: clamp(5.2rem, 12.4vw, 8.6rem); }
+      .cards { min-height: 230px; gap: 8px; }
+      .mathCard { border-radius: 22px; }
+      .side { gap: 8px; }
+      select, input { min-height: 40px; }
+      button.action { min-height: 46px; }
+      details.rulesBox summary { padding: 11px 12px; font-size: 1.08rem; }
+      .rules { font-size: .86rem; line-height: 1.25; }
+      .targetMini { min-height: 72px; font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
+  <div class="doodle d1">25 − 8 = 17</div>
+  <div class="doodle d2">8 × 6 = 48</div>
+  <div class="doodle d3">42 ÷ 6 = 7</div>
+
   <div class="app">
     <div class="portraitHint">Bitte das Tablet quer drehen – dieses Spiel ist fürs Querformat optimiert.</div>
 
     <header>
       <div>
-        <div class="pill">🃏 Mathe-UNO</div>
-        <h1>Karten spielen. Zahl verändern. Clever gewinnen.</h1>
+        <div class="logoLine">
+          <div class="mathe">MATHE-</div>
+          <div class="uno"><span>U</span><span>N</span><span>O</span></div>
+        </div>
+        <div class="headlineBrush"><span class="b">Rechnen.</span> <span class="p">Taktieren.</span> <span class="g">Gewinnen.</span></div>
         <p class="subtitle">Startzahl: <b>20</b> · Ziel: möglichst genau auf <b>100</b> kommen oder den Gegner unter <b>0</b> bringen.</p>
       </div>
-      <button class="action" onclick="resetGame()">Neues Spiel</button>
+      <button class="action" onclick="resetGame()">SPIEL STARTEN! →</button>
     </header>
 
     <div class="layout">
@@ -524,7 +544,7 @@
           </div>
           <div class="scale">
             <span>0</span>
-            <span>100</span>
+            <span>🎯 100</span>
           </div>
         </div>
       </main>
@@ -533,21 +553,21 @@
         <section id="message" class="message"></section>
 
         <section class="panel controls">
-          <h2>Spieler-Namen</h2>
+          <h2>👥 Spieler-Namen</h2>
           <div class="nameInputs">
             <div>
-              <label for="player1Name">Kind 1</label>
+              <label for="player1Name">Spieler 1</label>
               <input id="player1Name" type="text" placeholder="Name" oninput="updateNames()" />
             </div>
             <div>
-              <label for="player2Name">Kind 2</label>
+              <label for="player2Name">Spieler 2</label>
               <input id="player2Name" type="text" placeholder="Name" oninput="updateNames()" />
             </div>
           </div>
         </section>
 
         <section class="panel controls">
-          <h2>Einstellungen</h2>
+          <h2>⚙️ Einstellungen</h2>
           <div class="settingsGrid">
             <div>
               <label for="roundLimit">Rundenlimit</label>
@@ -573,14 +593,14 @@
           <ol class="rules">
             <li>Abwechselnd eine Karte spielen.</li>
             <li>Nach jedem Zug erscheinen neue Karten.</li>
-            <li>Es werden nur Karten angezeigt, die ganze Zahlen ergeben.</li>
+            <li>Nur ganze Zahlen sind erlaubt.</li>
             <li>Genau 100 gewinnt sofort.</li>
             <li>Unter 0 gewinnt ebenfalls sofort.</li>
             <li>Nach dem Rundenlimit zählt der Abstand zu 100.</li>
           </ol>
         </details>
 
-        <div class="spacerCard"></div>
+        <div class="targetMini">ZIEL: 100</div>
       </aside>
     </div>
   </div>
@@ -659,26 +679,17 @@
 
     function makePlusCard(settings) {
       const value = randomInt(1, settings.plusMax);
-      return {
-        label: "+" + value,
-        apply: n => n + value
-      };
+      return { label: "+" + value, apply: n => n + value };
     }
 
     function makeMinusCard(settings) {
       const value = randomInt(1, settings.minusMax);
-      return {
-        label: "−" + value,
-        apply: n => n - value
-      };
+      return { label: "−" + value, apply: n => n - value };
     }
 
     function makeMultiplyCard(settings) {
       const value = settings.multiplyOptions[randomInt(0, settings.multiplyOptions.length - 1)];
-      return {
-        label: "×" + value,
-        apply: n => n * value
-      };
+      return { label: "×" + value, apply: n => n * value };
     }
 
     function makeDivideCard(settings) {
@@ -686,25 +697,19 @@
         return divisor !== 0 && currentNumber % divisor === 0;
       });
 
-      if (possibleDivisors.length === 0) {
-        return null;
-      }
+      if (possibleDivisors.length === 0) return null;
 
       const value = possibleDivisors[randomInt(0, possibleDivisors.length - 1)];
-
-      return {
-        label: "÷" + value,
-        apply: n => n / value
-      };
+      return { label: "÷" + value, apply: n => n / value };
     }
 
     function generateCards() {
       const settings = getSettings();
-      const generated = [];
-
-      generated.push(makePlusCard(settings));
-      generated.push(makeMinusCard(settings));
-      generated.push(makeMultiplyCard(settings));
+      const generated = [
+        makePlusCard(settings),
+        makeMinusCard(settings),
+        makeMultiplyCard(settings)
+      ];
 
       const divideCard = makeDivideCard(settings);
       if (divideCard) {
@@ -753,7 +758,6 @@
       }
 
       const playerName = getPlayerName(activePlayer);
-
       currentNumber = newNumber;
       moveCount++;
 
@@ -790,7 +794,6 @@
     function updatePlayers() {
       player1Box.classList.toggle("active", activePlayer === 1);
       player2Box.classList.toggle("active", activePlayer === 2);
-
       player1Box.querySelector("small").textContent = activePlayer === 1 ? "am Zug" : "wartet";
       player2Box.querySelector("small").textContent = activePlayer === 2 ? "am Zug" : "wartet";
     }
