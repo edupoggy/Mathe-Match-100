@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Mathe-UNO Querformat</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --text: #172033;
+      --muted: #667085;
+      --shadow: 0 10px 28px rgba(20, 30, 60, 0.14);
+      --p1: #2563eb;
+      --p2: #db2777;
+      --neutral: #f8fafc;
+      --neutral-border: #d0d5dd;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #dbeafe, transparent 35%),
+                  radial-gradient(circle at bottom right, #fce7f3, transparent 35%),
+                  var(--bg);
+      color: var(--text);
+      overscroll-behavior: none;
+    }
+
+    body {
+      padding: 10px;
+    }
+
+    .app {
+      width: min(100%, 1280px);
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3.1vw, 2.8rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+      color: var(--muted);
+      margin: 5px 0 0;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-bottom: 5px;
+      border-radius: 999px;
+      padding: 6px 11px;
+      background: #eef2ff;
+      font-weight: 950;
+      color: #3730a3;
+      font-size: 0.9rem;
+    }
+
+    button.action {
+      min-height: 50px;
+      border: 0;
+      border-radius: 16px;
+      font-size: 1.05rem;
+      font-weight: 950;
+      background: #111827;
+      color: white;
+      cursor: pointer;
+      padding: 0 18px;
+      white-space: nowrap;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) minmax(300px, 0.72fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+
+    .gamePanel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      min-height: calc(100vh - 125px);
+    }
+
+    .players {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .player {
+      border: 4px solid transparent;
+      border-radius: 20px;
+      padding: 10px;
+      background: var(--neutral);
+      text-align: center;
+      transition: 0.25s ease;
+    }
+
+    .playerName {
+      font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+      font-weight: 1000;
+      word-break: break-word;
+    }
+
+    .player small {
+      display: block;
+      margin-top: 2px;
+      font-weight: 900;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .player.active.p1 {
+      border-color: var(--p1);
+      background: #dbeafe;
+      color: #1d4ed8;
+      transform: scale(1.015);
+    }
+
+    .player.active.p2 {
+      border-color: var(--p2);
+      background: #fce7f3;
+      color: #be185d;
+      transform: scale(1.015);
+    }
+
+    .centerArea {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.78fr) minmax(410px, 1.22fr);
+      gap: 10px;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .numberBox {
+      border-radius: 24px;
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 16px 10px;
+      display: grid;
+      align-content: center;
+      min-height: 300px;
+    }
+
+    .numberLabel {
+      margin: 0 0 8px;
+      color: #cbd5e1;
+      font-size: clamp(1rem, 1.7vw, 1.3rem);
+      font-weight: 900;
+    }
+
+    .number {
+      font-size: clamp(5.8rem, 13.5vw, 10rem);
+      font-weight: 1000;
+      line-height: 0.95;
+      letter-spacing: -0.08em;
+    }
+
+    .status {
+      margin: 10px 0 0;
+      color: #dbeafe;
+      font-size: clamp(1.05rem, 1.9vw, 1.5rem);
+      font-weight: 950;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(170px, 1fr));
+      grid-template-rows: repeat(2, minmax(145px, 1fr));
+      gap: 10px;
+      min-height: 300px;
+    }
+
+    .mathCard {
+      border-radius: 26px;
+      border: 4px solid var(--neutral-border);
+      background: linear-gradient(180deg, #ffffff, #f1f5f9);
+      color: #111827;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+      font-size: clamp(3.4rem, 7vw, 6.4rem);
+      font-weight: 1000;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .mathCard:active {
+      transform: scale(0.96);
+      box-shadow: 0 5px 12px rgba(15, 23, 42, 0.14);
+    }
+
+    .mathCard:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .progressWrap {
+      height: 18px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .progress {
+      height: 100%;
+      width: 20%;
+      background: #6366f1;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .scale {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+
+    .side {
+      display: grid;
+      grid-template-rows: auto auto auto auto 1fr;
+      gap: 10px;
+      min-height: calc(100vh - 125px);
+      align-content: start;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.2rem, 2vw, 1.55rem);
+    }
+
+    .controls {
+      display: grid;
+      gap: 10px;
+    }
+
+    .nameInputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .settingsGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 900;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.72rem;
+    }
+
+    select, input {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 14px;
+      border: 2px solid #d0d5dd;
+      padding: 8px 10px;
+      font-size: 1rem;
+      font-weight: 850;
+      background: white;
+    }
+
+    .message {
+      display: none;
+      border-radius: 20px;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 14px;
+      font-size: 1.12rem;
+      font-weight: 950;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    details.rulesBox {
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    details.rulesBox summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px;
+      font-size: 1.25rem;
+      font-weight: 1000;
+      user-select: none;
+    }
+
+    details.rulesBox summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .rules {
+      margin: 0;
+      padding: 0 18px 14px 32px;
+      color: #344054;
+      font-size: 0.98rem;
+      line-height: 1.35;
+    }
+
+    .spacerCard {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 22px;
+      min-height: 80px;
+    }
+
+    .portraitHint {
+      display: none;
+      background: #fff7ed;
+      border: 3px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 20px;
+      padding: 12px;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    @media (orientation: portrait) and (max-width: 900px) {
+      .portraitHint {
+        display: block;
+      }
+
+      header {
+        grid-template-columns: 1fr;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .gamePanel,
+      .side {
+        min-height: auto;
+      }
+
+      .centerArea {
+        grid-template-columns: 1fr;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (orientation: landscape) and (max-height: 680px) {
+      body {
+        padding: 8px;
+      }
+
+      .app {
+        gap: 8px;
+      }
+
+      header {
+        padding: 9px 13px;
+        border-radius: 18px;
+      }
+
+      .pill {
+        margin-bottom: 3px;
+        padding: 5px 10px;
+      }
+
+      .subtitle {
+        margin-top: 3px;
+      }
+
+      .layout {
+        gap: 8px;
+      }
+
+      .panel {
+        padding: 10px;
+        border-radius: 18px;
+      }
+
+      .gamePanel,
+      .side {
+        min-height: calc(100vh - 100px);
+      }
+
+      .centerArea {
+        grid-template-columns: 0.72fr 1.28fr;
+        gap: 8px;
+      }
+
+      .players {
+        gap: 8px;
+      }
+
+      .player {
+        padding: 7px;
+        border-radius: 17px;
+      }
+
+      .numberBox {
+        min-height: 230px;
+        border-radius: 18px;
+      }
+
+      .number {
+        font-size: clamp(5rem, 12vw, 8.2rem);
+      }
+
+      .cards {
+        min-height: 230px;
+        gap: 8px;
+      }
+
+      .mathCard {
+        border-radius: 20px;
+      }
+
+      .side {
+        gap: 8px;
+      }
+
+      select, input {
+        min-height: 40px;
+      }
+
+      button.action {
+        min-height: 44px;
+      }
+
+      details.rulesBox summary {
+        padding: 11px 12px;
+        font-size: 1.1rem;
+      }
+
+      .rules {
+        font-size: 0.86rem;
+        line-height: 1.25;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="portraitHint">Bitte das Tablet quer drehen – dieses Spiel ist fürs Querformat optimiert.</div>
+
+    <header>
+      <div>
+        <div class="pill">🃏 Mathe-UNO</div>
+        <h1>Karten spielen. Zahl verändern. Clever gewinnen.</h1>
+        <p class="subtitle">Startzahl: <b>20</b> · Ziel: möglichst genau auf <b>100</b> kommen oder den Gegner unter <b>0</b> bringen.</p>
+      </div>
+      <button class="action" onclick="resetGame()">Neues Spiel</button>
+    </header>
+
+    <div class="layout">
+      <main class="panel gamePanel">
+        <div class="players">
+          <div id="player1Box" class="player active p1">
+            <div id="player1Display" class="playerName">Kind 1</div>
+            <small>am Zug</small>
+          </div>
+          <div id="player2Box" class="player p2">
+            <div id="player2Display" class="playerName">Kind 2</div>
+            <small>wartet</small>
+          </div>
+        </div>
+
+        <div class="centerArea">
+          <div class="numberBox">
+            <p class="numberLabel">Aktuelle Zahl</p>
+            <div id="number" class="number">20</div>
+            <p id="status" class="status">Abstand zu 100: 80</p>
+          </div>
+
+          <div id="cards" class="cards"></div>
+        </div>
+
+        <div>
+          <div class="progressWrap">
+            <div id="progress" class="progress"></div>
+          </div>
+          <div class="scale">
+            <span>0</span>
+            <span>100</span>
+          </div>
+        </div>
+      </main>
+
+      <aside class="side">
+        <section id="message" class="message"></section>
+
+        <section class="panel controls">
+          <h2>Spieler-Namen</h2>
+          <div class="nameInputs">
+            <div>
+              <label for="player1Name">Kind 1</label>
+              <input id="player1Name" type="text" placeholder="Name" oninput="updateNames()" />
+            </div>
+            <div>
+              <label for="player2Name">Kind 2</label>
+              <input id="player2Name" type="text" placeholder="Name" oninput="updateNames()" />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel controls">
+          <h2>Einstellungen</h2>
+          <div class="settingsGrid">
+            <div>
+              <label for="roundLimit">Rundenlimit</label>
+              <select id="roundLimit" onchange="changeRoundLimit()">
+                <option value="8">8 Züge</option>
+                <option value="12" selected>12 Züge</option>
+                <option value="16">16 Züge</option>
+                <option value="20">20 Züge</option>
+              </select>
+            </div>
+            <div>
+              <label for="difficulty">Schwierigkeit</label>
+              <select id="difficulty" onchange="newCards()">
+                <option value="1">Stufe 1</option>
+                <option value="2">Stufe 2</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <details class="rulesBox">
+          <summary>❓ Spielregeln anzeigen</summary>
+          <ol class="rules">
+            <li>Abwechselnd eine Karte spielen.</li>
+            <li>Nach jedem Zug erscheinen neue Karten.</li>
+            <li>Es werden nur Karten angezeigt, die ganze Zahlen ergeben.</li>
+            <li>Genau 100 gewinnt sofort.</li>
+            <li>Unter 0 gewinnt ebenfalls sofort.</li>
+            <li>Nach dem Rundenlimit zählt der Abstand zu 100.</li>
+          </ol>
+        </details>
+
+        <div class="spacerCard"></div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const START_NUMBER = 20;
+    const TARGET = 100;
+
+    let currentNumber = START_NUMBER;
+    let activePlayer = 1;
+    let moveCount = 0;
+    let roundLimit = 12;
+    let gameOver = false;
+    let currentCards = [];
+
+    const numberEl = document.getElementById("number");
+    const statusEl = document.getElementById("status");
+    const progressEl = document.getElementById("progress");
+    const cardsEl = document.getElementById("cards");
+    const messageEl = document.getElementById("message");
+    const player1Box = document.getElementById("player1Box");
+    const player2Box = document.getElementById("player2Box");
+    const player1Display = document.getElementById("player1Display");
+    const player2Display = document.getElementById("player2Display");
+    const player1NameInput = document.getElementById("player1Name");
+    const player2NameInput = document.getElementById("player2Name");
+    const roundLimitEl = document.getElementById("roundLimit");
+    const difficultyEl = document.getElementById("difficulty");
+
+    function getPlayerName(playerNumber) {
+      const input = playerNumber === 1 ? player1NameInput : player2NameInput;
+      const fallback = playerNumber === 1 ? "Kind 1" : "Kind 2";
+      return input.value.trim() || fallback;
+    }
+
+    function updateNames() {
+      player1Display.textContent = getPlayerName(1);
+      player2Display.textContent = getPlayerName(2);
+      updatePlayers();
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function distanceToTarget(value) {
+      return Math.abs(TARGET - value);
+    }
+
+    function shuffle(array) {
+      return array
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+    }
+
+    function getSettings() {
+      const difficulty = Number(difficultyEl.value);
+
+      if (difficulty === 1) {
+        return {
+          plusMax: 20,
+          minusMax: 20,
+          multiplyOptions: [2, 3],
+          divideOptions: [2, 5, 10]
+        };
+      }
+
+      return {
+        plusMax: 50,
+        minusMax: 50,
+        multiplyOptions: [2, 3, 4, 5],
+        divideOptions: [2, 3, 4, 5, 6, 8, 10]
+      };
+    }
+
+    function makePlusCard(settings) {
+      const value = randomInt(1, settings.plusMax);
+      return {
+        label: "+" + value,
+        apply: n => n + value
+      };
+    }
+
+    function makeMinusCard(settings) {
+      const value = randomInt(1, settings.minusMax);
+      return {
+        label: "−" + value,
+        apply: n => n - value
+      };
+    }
+
+    function makeMultiplyCard(settings) {
+      const value = settings.multiplyOptions[randomInt(0, settings.multiplyOptions.length - 1)];
+      return {
+        label: "×" + value,
+        apply: n => n * value
+      };
+    }
+
+    function makeDivideCard(settings) {
+      const possibleDivisors = settings.divideOptions.filter(divisor => {
+        return divisor !== 0 && currentNumber % divisor === 0;
+      });
+
+      if (possibleDivisors.length === 0) {
+        return null;
+      }
+
+      const value = possibleDivisors[randomInt(0, possibleDivisors.length - 1)];
+
+      return {
+        label: "÷" + value,
+        apply: n => n / value
+      };
+    }
+
+    function generateCards() {
+      const settings = getSettings();
+      const generated = [];
+
+      generated.push(makePlusCard(settings));
+      generated.push(makeMinusCard(settings));
+      generated.push(makeMultiplyCard(settings));
+
+      const divideCard = makeDivideCard(settings);
+      if (divideCard) {
+        generated.push(divideCard);
+      } else {
+        const replacementPool = [
+          () => makePlusCard(settings),
+          () => makeMinusCard(settings),
+          () => makeMultiplyCard(settings)
+        ];
+        generated.push(replacementPool[randomInt(0, replacementPool.length - 1)]());
+      }
+
+      return shuffle(generated);
+    }
+
+    function newCards() {
+      if (gameOver) return;
+      currentCards = generateCards();
+      renderCards();
+    }
+
+    function renderCards() {
+      cardsEl.innerHTML = "";
+
+      currentCards.forEach((card, index) => {
+        const button = document.createElement("button");
+        button.className = "mathCard";
+        button.textContent = card.label;
+        button.disabled = gameOver;
+        button.onclick = () => playCard(index);
+        cardsEl.appendChild(button);
+      });
+    }
+
+    function playCard(index) {
+      if (gameOver) return;
+
+      const card = currentCards[index];
+      const newNumber = card.apply(currentNumber);
+
+      if (!Number.isInteger(newNumber)) {
+        alert("Diese Karte würde keine ganze Zahl ergeben und wurde deshalb blockiert.");
+        newCards();
+        return;
+      }
+
+      const playerName = getPlayerName(activePlayer);
+
+      currentNumber = newNumber;
+      moveCount++;
+
+      if (currentNumber === TARGET) {
+        finishGame(`🏆 ${playerName} gewinnt: genau 100 erreicht!`);
+        updateDisplay();
+        return;
+      }
+
+      if (currentNumber < 0) {
+        finishGame(`🏆 ${playerName} gewinnt: Zahl unter 0 gebracht!`);
+        updateDisplay();
+        return;
+      }
+
+      if (moveCount >= roundLimit) {
+        finishGame(`Spielende! Abstand zu 100: ${distanceToTarget(currentNumber)}`);
+        updateDisplay();
+        return;
+      }
+
+      activePlayer = activePlayer === 1 ? 2 : 1;
+      newCards();
+      updateDisplay();
+    }
+
+    function finishGame(text) {
+      gameOver = true;
+      messageEl.textContent = text;
+      messageEl.classList.add("show");
+      renderCards();
+    }
+
+    function updatePlayers() {
+      player1Box.classList.toggle("active", activePlayer === 1);
+      player2Box.classList.toggle("active", activePlayer === 2);
+
+      player1Box.querySelector("small").textContent = activePlayer === 1 ? "am Zug" : "wartet";
+      player2Box.querySelector("small").textContent = activePlayer === 2 ? "am Zug" : "wartet";
+    }
+
+    function updateDisplay() {
+      numberEl.textContent = currentNumber;
+      statusEl.textContent = currentNumber < 0
+        ? "Die Zahl ist unter 0."
+        : "Abstand zu 100: " + distanceToTarget(currentNumber);
+
+      const progress = Math.max(0, Math.min(100, (currentNumber / TARGET) * 100));
+      progressEl.style.width = progress + "%";
+
+      updateNames();
+      updatePlayers();
+    }
+
+    function changeRoundLimit() {
+      if (moveCount > 0) {
+        roundLimitEl.value = String(roundLimit);
+        alert("Das Rundenlimit kann nur vor dem ersten Zug geändert werden.");
+        return;
+      }
+      roundLimit = Number(roundLimitEl.value);
+      updateDisplay();
+    }
+
+    function resetGame() {
+      currentNumber = START_NUMBER;
+      activePlayer = 1;
+      moveCount = 0;
+      roundLimit = Number(roundLimitEl.value);
+      gameOver = false;
+      messageEl.textContent = "";
+      messageEl.classList.remove("show");
+      newCards();
+      updateDisplay();
+    }
+
+    resetGame();
+  </script>
+</body>
+</html>
