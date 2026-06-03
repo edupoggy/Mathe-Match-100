@@ -595,7 +595,7 @@
           <ol class="rules">
             <li>Abwechselnd eine Karte spielen.</li>
             <li>Nach jedem Zug erscheinen neue Karten.</li>
-            <li>Nur ganze Zahlen sind erlaubt.</li>
+            <li>Nur ganze Zahlen sind erlaubt.</li><li>In den ersten vier Zügen gibt es keine Karte, die direkt unter 0 führt.</li>
             <li>Genau 100 gewinnt sofort.</li>
             <li>Unter 0 gewinnt ebenfalls sofort.</li>
             <li>Nach dem Rundenlimit zählt der Abstand zu 100.</li>
@@ -610,6 +610,7 @@
   <script>
     const START_NUMBER = 20;
     const TARGET = 100;
+    const MIN_MOVES_BEFORE_NEGATIVE = 4;
 
     let currentNumber = START_NUMBER;
     let activePlayer = 1;
@@ -685,7 +686,19 @@
     }
 
     function makeMinusCard(settings) {
-      const value = randomInt(1, settings.minusMax);
+      /*
+        Balance-Regel:
+        In den ersten vier Zügen darf keine Minuskarte entstehen,
+        die sofort unter 0 führt. Dadurch kann Spieler 2 nicht schon
+        im zweiten Zug durch eine zufällige Karte gewinnen.
+      */
+      let maxMinus = settings.minusMax;
+
+      if (moveCount < MIN_MOVES_BEFORE_NEGATIVE) {
+        maxMinus = Math.min(settings.minusMax, Math.max(1, currentNumber));
+      }
+
+      const value = randomInt(1, maxMinus);
       return { label: "−" + value, apply: n => n - value };
     }
 
@@ -705,22 +718,51 @@
       return { label: "÷" + value, apply: n => n / value };
     }
 
+    function cardIsAllowed(card) {
+      const result = card.apply(currentNumber);
+
+      if (!Number.isInteger(result)) {
+        return false;
+      }
+
+      /*
+        In den ersten vier Zügen sind Karten verboten,
+        die direkt unter 0 führen würden.
+      */
+      if (moveCount < MIN_MOVES_BEFORE_NEGATIVE && result < 0) {
+        return false;
+      }
+
+      return true;
+    }
+
+    function createAllowedCard(factory, settings) {
+      for (let attempt = 0; attempt < 80; attempt++) {
+        const card = factory(settings);
+        if (card && cardIsAllowed(card)) {
+          return card;
+        }
+      }
+
+      return makePlusCard(settings);
+    }
+
     function generateCards() {
       const settings = getSettings();
-      const generated = [
-        makePlusCard(settings),
-        makeMinusCard(settings),
-        makeMultiplyCard(settings)
-      ];
+      const generated = [];
 
-      const divideCard = makeDivideCard(settings);
+      generated.push(createAllowedCard(makePlusCard, settings));
+      generated.push(createAllowedCard(makeMinusCard, settings));
+      generated.push(createAllowedCard(makeMultiplyCard, settings));
+
+      const divideCard = createAllowedCard(makeDivideCard, settings);
       if (divideCard) {
         generated.push(divideCard);
       } else {
         const replacementPool = [
-          () => makePlusCard(settings),
-          () => makeMinusCard(settings),
-          () => makeMultiplyCard(settings)
+          () => createAllowedCard(makePlusCard, settings),
+          () => createAllowedCard(makeMinusCard, settings),
+          () => createAllowedCard(makeMultiplyCard, settings)
         ];
         generated.push(replacementPool[randomInt(0, replacementPool.length - 1)]());
       }
