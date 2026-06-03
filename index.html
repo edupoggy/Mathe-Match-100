@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Mathe-UNO</title>
+  <title>Mathe-UNO – Die Jagd nach 100</title>
   <style>
     :root {
       --dark: #071735;
@@ -69,7 +69,7 @@
       grid-template-columns: 1fr auto;
       gap: 12px;
       align-items: center;
-      padding: 12px 16px;
+      padding: 8px 14px;
       border-radius: 28px;
       background: rgba(2, 10, 35, .48);
       border: 4px solid rgba(255,255,255,.2);
@@ -78,7 +78,7 @@
 
     .logoLine {
       display: flex;
-      align-items: end;
+      align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
@@ -115,11 +115,11 @@
 
     .headlineBrush {
       display: inline-block;
-      margin-top: 6px;
+      margin-top: 0px;
       background: white;
       color: var(--ink);
       border-radius: 16px;
-      padding: 6px 18px;
+      padding: 4px 14px;
       font-size: clamp(1rem, 1.7vw, 1.35rem);
       font-weight: 1000;
       box-shadow: 0 7px 0 rgba(0,0,0,.25);
@@ -167,9 +167,9 @@
 
     .gamePanel {
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: auto auto 1fr auto;
       gap: 10px;
-      height: calc(100vh - 95px);
+      height: calc(100vh - 75px);
     }
 
     .players {
@@ -217,6 +217,52 @@
       font-weight: 1000;
       opacity: .9;
     }
+
+    .score {
+      margin-top: 6px;
+      display: inline-block;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      color: var(--ink);
+      padding: 5px 14px;
+      font-size: clamp(.95rem, 1.5vw, 1.15rem);
+      font-weight: 1000;
+      box-shadow: 0 4px 0 rgba(0,0,0,.18);
+    }
+
+    .bestDistance {
+      margin-top: 5px;
+      font-size: clamp(.78rem, 1.25vw, .95rem);
+      font-weight: 1000;
+      opacity: .92;
+    }
+
+    .scoreTools {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button.smallAction {
+      min-height: 40px;
+      border: 3px solid white;
+      border-radius: 999px;
+      font-size: .9rem;
+      font-weight: 1000;
+      background: linear-gradient(#ffffff, #dbeafe);
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0 12px;
+      box-shadow: 0 5px 0 rgba(0,0,0,.2);
+    }
+
+    button.smallAction:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 rgba(0,0,0,.2);
+    }
+
 
     .centerArea {
       display: grid;
@@ -311,7 +357,7 @@
     }
 
     .progressWrap {
-      height: 20px;
+      height: 26px;
       background: rgba(255,255,255,.55);
       border: 4px solid white;
       border-radius: 999px;
@@ -340,7 +386,7 @@
       display: grid;
       grid-template-rows: auto auto auto auto 1fr;
       gap: 10px;
-      height: calc(100vh - 95px);
+      height: calc(100vh - 75px);
       align-content: start;
     }
 
@@ -429,8 +475,10 @@
     }
 
     .targetMini {
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       min-height: 96px;
       border-radius: 28px;
       background: radial-gradient(circle, white 0 38%, var(--blue) 39% 55%, white 56% 68%, transparent 69%),
@@ -440,6 +488,33 @@
       font-size: 2.2rem;
       font-weight: 1000;
       box-shadow: 0 10px 0 rgba(0,0,0,.22);
+    }
+
+
+    .moveCounter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .counterBadge {
+      border-radius: 20px;
+      background: linear-gradient(#ffffff, #eaf4ff);
+      color: var(--ink);
+      border: 4px solid white;
+      padding: 8px 10px;
+      text-align: center;
+      font-size: clamp(.95rem, 1.5vw, 1.2rem);
+      font-weight: 1000;
+      box-shadow: 0 7px 0 rgba(0,0,0,.18);
+    }
+
+    .counterBadge strong {
+      display: block;
+      font-size: clamp(1.25rem, 2vw, 1.7rem);
+      line-height: 1;
+      color: var(--blue);
     }
 
     .portraitHint {
@@ -466,7 +541,34 @@
     .d3 { right: 4%; bottom: 7%; transform: rotate(-8deg); color: rgba(121,189,54,.55); }
 
     @media (orientation: portrait) and (max-width: 900px) {
-      .portraitHint { display: block; }
+  
+    .moveCounter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .counterBadge {
+      border-radius: 20px;
+      background: linear-gradient(#ffffff, #eaf4ff);
+      color: var(--ink);
+      border: 4px solid white;
+      padding: 8px 10px;
+      text-align: center;
+      font-size: clamp(.95rem, 1.5vw, 1.2rem);
+      font-weight: 1000;
+      box-shadow: 0 7px 0 rgba(0,0,0,.18);
+    }
+
+    .counterBadge strong {
+      display: block;
+      font-size: clamp(1.25rem, 2vw, 1.7rem);
+      line-height: 1;
+      color: var(--blue);
+    }
+
+    .portraitHint { display: block; }
       header { grid-template-columns: 1fr; }
       .layout { grid-template-columns: 1fr; }
       .gamePanel, .side { min-height: auto; }
@@ -480,7 +582,7 @@
       .headlineBrush { padding: 4px 14px; }
       .layout { gap: 8px; }
       .panel { padding: 9px; border-radius: 24px; }
-      .gamePanel, .side { height: calc(100vh - 82px); }
+      .gamePanel, .side { height: calc(100vh - 68px); }
       .centerArea { grid-template-columns: .72fr 1.28fr; gap: 8px; }
       .players { gap: 8px; }
       .player { padding: 7px; border-radius: 20px; }
@@ -510,8 +612,8 @@
         <div class="logoLine">
           <div class="mathe">MATHE-</div>
           <div class="uno"><span>U</span><span>N</span><span>O</span></div>
+          <div class="headlineBrush">🃏 Die Jagd nach 100</div>
         </div>
-        <div class="headlineBrush"><span class="b">Rechnen.</span> <span class="p">Taktieren.</span> <span class="g">Gewinnen.</span></div>
         <p class="subtitle" style="display:none">Startzahl: <b>20</b> · Ziel: möglichst genau auf <b>100</b> kommen oder den Gegner unter <b>0</b> bringen.</p>
       </div>
       <button class="action" onclick="resetGame()">SPIEL STARTEN! →</button>
@@ -523,11 +625,20 @@
           <div id="player1Box" class="player active p1">
             <div id="player1Display" class="playerName">Kind 1</div>
             <small>am Zug</small>
+            <div class="score">Punkte: <span id="score1">0</span></div>
+            <div class="bestDistance">Abstand zur 100: <span id="best1">–</span></div>
           </div>
           <div id="player2Box" class="player p2">
             <div id="player2Display" class="playerName">Kind 2</div>
             <small>wartet</small>
+            <div class="score">Punkte: <span id="score2">0</span></div>
+            <div class="bestDistance">Abstand zur 100: <span id="best2">–</span></div>
           </div>
+        </div>
+
+        <div class="moveCounter">
+          <div class="counterBadge">Züge Kind 1 <strong id="playedMoves">0 / 12</strong></div>
+          <div class="counterBadge">Züge Kind 2 <strong id="remainingMoves">0 / 12</strong></div>
         </div>
 
         <div class="centerArea">
@@ -572,12 +683,12 @@
           <h2>⚙️ Einstellungen</h2>
           <div class="settingsGrid">
             <div>
-              <label for="roundLimit">Rundenlimit</label>
+              <label for="roundLimit">Züge pro Spieler</label>
               <select id="roundLimit" onchange="changeRoundLimit()">
-                <option value="8">8 Züge</option>
-                <option value="12" selected>12 Züge</option>
-                <option value="16">16 Züge</option>
-                <option value="20">20 Züge</option>
+                <option value="8">8 Züge pro Kind</option>
+                <option value="12" selected>12 Züge pro Kind</option>
+                <option value="16">16 Züge pro Kind</option>
+                <option value="20">20 Züge pro Kind</option>
               </select>
             </div>
             <div>
@@ -588,21 +699,22 @@
               </select>
             </div>
           </div>
+          <div class="scoreTools">
+            <button class="smallAction" onclick="resetScores()">Punkte zurücksetzen</button>
+          </div>
         </section>
 
         <details class="rulesBox">
           <summary>❓ Spielregeln anzeigen</summary>
           <ol class="rules">
-            <li>Abwechselnd eine Karte spielen.</li>
-            <li>Nach jedem Zug erscheinen neue Karten.</li>
-            <li>Nur ganze Zahlen sind erlaubt.</li><li>In den ersten vier Zügen gibt es keine Karte, die direkt unter 0 führt.</li>
-            <li>Genau 100 gewinnt sofort.</li>
-            <li>Unter 0 gewinnt ebenfalls sofort.</li>
-            <li>Nach dem Rundenlimit zählt der Abstand zu 100.</li>
+            <li>Der Startspieler wird zu Beginn jeder Runde zufällig ausgewählt.</li>
+            <li>Jedes Kind hat gleich viele Züge, zum Beispiel 12 Züge pro Kind.</li>
+            <li>Genau 100 oder unter 0 bringt sofort 10 Punkte.</li>
+            <li>Nach allen Zügen zählen die besten Abstände beider Kinder zur 100.</li>
           </ol>
         </details>
 
-        <div class="targetMini">ZIEL: 100</div>
+        <div class="targetMini">🎯 ZIEL:<br>100 oder unter 0</div>
       </aside>
     </div>
   </div>
@@ -618,6 +730,9 @@
     let roundLimit = 12;
     let gameOver = false;
     let currentCards = [];
+    let playerScores = { 1: 0, 2: 0 };
+    let bestDistances = { 1: Infinity, 2: Infinity };
+    let playerMoves = { 1: 0, 2: 0 };
 
     const numberEl = document.getElementById("number");
     const statusEl = document.getElementById("status");
@@ -632,6 +747,12 @@
     const player2NameInput = document.getElementById("player2Name");
     const roundLimitEl = document.getElementById("roundLimit");
     const difficultyEl = document.getElementById("difficulty");
+    const score1El = document.getElementById("score1");
+    const score2El = document.getElementById("score2");
+    const best1El = document.getElementById("best1");
+    const best2El = document.getElementById("best2");
+    const playedMovesEl = document.getElementById("playedMoves");
+    const remainingMovesEl = document.getElementById("remainingMoves");
 
     function getPlayerName(playerNumber) {
       const input = playerNumber === 1 ? player1NameInput : player2NameInput;
@@ -804,35 +925,86 @@
       const playerName = getPlayerName(activePlayer);
       currentNumber = newNumber;
       moveCount++;
+      playerMoves[activePlayer]++;
+      updateBestDistance(activePlayer);
 
       if (currentNumber === TARGET) {
-        finishGame(`🏆 ${playerName} gewinnt: genau 100 erreicht!`);
+        finishGame(`🏆 ${playerName} gewinnt: genau 100 erreicht!`, activePlayer);
         updateDisplay();
         return;
       }
 
       if (currentNumber < 0) {
-        finishGame(`🏆 ${playerName} gewinnt: Zahl unter 0 gebracht!`);
+        finishGame(`🏆 ${playerName} gewinnt: Zahl unter 0 gebracht!`, activePlayer);
         updateDisplay();
         return;
       }
 
-      if (moveCount >= roundLimit) {
-        finishGame(`Spielende! Abstand zu 100: ${distanceToTarget(currentNumber)}`);
+      if (playerMoves[1] >= roundLimit && playerMoves[2] >= roundLimit) {
+        finishRoundByDistance();
         updateDisplay();
         return;
       }
 
       activePlayer = activePlayer === 1 ? 2 : 1;
       newCards();
+      updateScores();
       updateDisplay();
     }
 
-    function finishGame(text) {
+    function getPointsForDistance(distance) {
+      if (!Number.isFinite(distance)) return 0;
+      if (distance === 0) return 10;
+      if (distance <= 2) return 8;
+      if (distance <= 5) return 6;
+      if (distance <= 10) return 4;
+      if (distance <= 20) return 2;
+      return 1;
+    }
+
+    function updateBestDistance(playerNumber) {
+      const distance = distanceToTarget(currentNumber);
+      bestDistances[playerNumber] = Math.min(bestDistances[playerNumber], distance);
+    }
+
+    function finishRoundByDistance() {
+      const p1Points = getPointsForDistance(bestDistances[1]);
+      const p2Points = getPointsForDistance(bestDistances[2]);
+
+      playerScores[1] += p1Points;
+      playerScores[2] += p2Points;
+
+      const p1Name = getPlayerName(1);
+      const p2Name = getPlayerName(2);
+      const p1Best = Number.isFinite(bestDistances[1]) ? bestDistances[1] : "–";
+      const p2Best = Number.isFinite(bestDistances[2]) ? bestDistances[2] : "–";
+
+      finishGame(`🎯 Rundenende!<br><br>${p1Name}: Abstand ${p1Best} = ${p1Points} Punkte<br><br>${p2Name}: Abstand ${p2Best} = ${p2Points} Punkte`);
+    }
+
+    function finishGame(text, winningPlayer = null) {
       gameOver = true;
+
+      if (winningPlayer) {
+        playerScores[winningPlayer] += 10;
+      }
+
       messageEl.textContent = text;
       messageEl.classList.add("show");
+      updateScores();
       renderCards();
+    }
+
+    function updateScores() {
+      score1El.textContent = playerScores[1];
+      score2El.textContent = playerScores[2];
+      best1El.textContent = Number.isFinite(bestDistances[1]) ? bestDistances[1] : "–";
+      best2El.textContent = Number.isFinite(bestDistances[2]) ? bestDistances[2] : "–";
+    }
+
+    function resetScores() {
+      playerScores = { 1: 0, 2: 0 };
+      updateScores();
     }
 
     function updatePlayers() {
@@ -851,6 +1023,9 @@
       const progress = Math.max(0, Math.min(100, (currentNumber / TARGET) * 100));
       progressEl.style.width = progress + "%";
 
+      playedMovesEl.textContent = playerMoves[1] + " / " + roundLimit;
+      remainingMovesEl.textContent = playerMoves[2] + " / " + roundLimit;
+
       updateNames();
       updatePlayers();
     }
@@ -858,7 +1033,7 @@
     function changeRoundLimit() {
       if (moveCount > 0) {
         roundLimitEl.value = String(roundLimit);
-        alert("Das Rundenlimit kann nur vor dem ersten Zug geändert werden.");
+        alert("Das Züge pro Spieler kann nur vor dem ersten Zug geändert werden.");
         return;
       }
       roundLimit = Number(roundLimitEl.value);
@@ -867,10 +1042,12 @@
 
     function resetGame() {
       currentNumber = START_NUMBER;
-      activePlayer = 1;
+      activePlayer = randomInt(1, 2);
       moveCount = 0;
+      playerMoves = { 1: 0, 2: 0 };
       roundLimit = Number(roundLimitEl.value);
       gameOver = false;
+      bestDistances = { 1: Infinity, 2: Infinity };
       messageEl.textContent = "";
       messageEl.classList.remove("show");
       newCards();
