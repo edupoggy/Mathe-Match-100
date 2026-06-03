@@ -34,7 +34,7 @@
         radial-gradient(circle at 12% 12%, rgba(35,150,243,.45), transparent 22%),
         radial-gradient(circle at 92% 88%, rgba(236,59,139,.35), transparent 23%),
         radial-gradient(circle at center, #103d82 0%, var(--dark2) 35%, var(--dark) 100%);
-      overflow-x: hidden;
+      overflow:hidden;
     }
 
     body::before {
@@ -50,7 +50,9 @@
     }
 
     body {
-      padding: 10px;
+      padding: 6px;
+      height:100vh;
+      overflow:hidden;
     }
 
     .app {
@@ -82,7 +84,7 @@
     }
 
     .mathe {
-      font-size: clamp(2rem, 4vw, 4rem);
+      font-size: clamp(1.4rem, 2.8vw, 2.6rem);
       font-weight: 1000;
       letter-spacing: .02em;
       color: white;
@@ -92,7 +94,7 @@
     }
 
     .uno {
-      font-size: clamp(2.6rem, 6vw, 5.8rem);
+      font-size: clamp(2rem, 4.2vw, 4rem);
       font-weight: 1000;
       line-height: .85;
       letter-spacing: -.06em;
@@ -167,7 +169,7 @@
       display: grid;
       grid-template-rows: auto 1fr auto;
       gap: 10px;
-      min-height: calc(100vh - 145px);
+      height: calc(100vh - 95px);
     }
 
     .players {
@@ -338,7 +340,7 @@
       display: grid;
       grid-template-rows: auto auto auto auto 1fr;
       gap: 10px;
-      min-height: calc(100vh - 145px);
+      height: calc(100vh - 95px);
       align-content: start;
     }
 
@@ -478,7 +480,7 @@
       .headlineBrush { padding: 4px 14px; }
       .layout { gap: 8px; }
       .panel { padding: 9px; border-radius: 24px; }
-      .gamePanel, .side { min-height: calc(100vh - 112px); }
+      .gamePanel, .side { height: calc(100vh - 82px); }
       .centerArea { grid-template-columns: .72fr 1.28fr; gap: 8px; }
       .players { gap: 8px; }
       .player { padding: 7px; border-radius: 20px; }
@@ -510,7 +512,7 @@
           <div class="uno"><span>U</span><span>N</span><span>O</span></div>
         </div>
         <div class="headlineBrush"><span class="b">Rechnen.</span> <span class="p">Taktieren.</span> <span class="g">Gewinnen.</span></div>
-        <p class="subtitle">Startzahl: <b>20</b> · Ziel: möglichst genau auf <b>100</b> kommen oder den Gegner unter <b>0</b> bringen.</p>
+        <p class="subtitle" style="display:none">Startzahl: <b>20</b> · Ziel: möglichst genau auf <b>100</b> kommen oder den Gegner unter <b>0</b> bringen.</p>
       </div>
       <button class="action" onclick="resetGame()">SPIEL STARTEN! →</button>
     </header>
