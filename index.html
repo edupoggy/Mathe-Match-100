@@ -989,7 +989,7 @@
         playerScores[winningPlayer] += 10;
       }
 
-      messageEl.textContent = text;
+      messageEl.innerHTML = text;
       messageEl.classList.add("show");
       updateScores();
       renderCards();
@@ -1048,7 +1048,7 @@
       roundLimit = Number(roundLimitEl.value);
       gameOver = false;
       bestDistances = { 1: Infinity, 2: Infinity };
-      messageEl.textContent = "";
+      messageEl.innerHTML = "";
       messageEl.classList.remove("show");
       newCards();
       updateDisplay();
